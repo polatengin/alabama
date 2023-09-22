@@ -1,3 +1,3 @@
 # alabama
 
-Risk Heatmap Dashboard for Azure DevOps Projects
+Sample project that deploys dotnet projects to AKS using GitHub Actions
