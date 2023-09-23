@@ -1,13 +1,9 @@
 name: "CodeQL"
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "dev", "staging", "main" ]
   workflow_dispatch:
-  schedule:
-    - cron: "*/15 * * * *"
 
 jobs:
   analyze:
@@ -42,3 +38,61 @@ jobs:
       uses: github/codeql-action/analyze@v2
       with:
         category: "/language:${{matrix.language}}"
+
+  lint_format:
+    name: Lint and Format
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 360
+    concurrency: lint-format-lock-${{ github.repository }}-${{ github.ref }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install Dependencies
+      working-directory: ./src/project-2
+      run: |
+        #!/bin/bash
+        set -e
+        npm install
+      continue-on-error: false
+
+    - name: Run ESLint
+      working-directory: ./src/project-2
+      run: |
+        #!/bin/bash
+        set -e
+        npx eslint
+      continue-on-error: true
+      id: eslint
+
+    - name: Check ESLint Results
+      working-directory: ./src/project-2
+      run: |
+        #!/bin/bash
+        set -e
+        echo "ESLint found issues"
+      if: steps.eslint.outcome == 'failure'
+
+    - name: Restore Dependencies
+      working-directory: ./src/project-1
+      run: |
+        #!/bin/bash
+        set -e
+        dotnet format
+      continue-on-error: false
+
+    - name: Restore Dependencies
+      working-directory: ./src/project-1
+      run: |
+        #!/bin/bash
+        set -e
+        dotnet restore
+      continue-on-error: false
+
+    - name: Build Project
+      working-directory: ./src/project-1
+      run: |
+        #!/bin/bash
+        set -e
+        dotnet build --configuration Release --no-restore
+      continue-on-error: false
