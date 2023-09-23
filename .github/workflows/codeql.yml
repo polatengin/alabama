@@ -42,3 +42,18 @@ jobs:
       uses: github/codeql-action/analyze@v2
       with:
         category: "/language:${{matrix.language}}"
+
+    - name: Install Dependencies
+      working-directory: ./src/project-2
+      run: npm install
+
+    - name: Run ESLint
+      working-directory: ./src/project-2
+      run: npx eslint .
+      continue-on-error: true
+      id: eslint
+
+    - name: Check ESLint Results
+      working-directory: ./src/project-2
+      run: echo "ESLint found issues"
+      if: steps.eslint.outcome == 'failure'
