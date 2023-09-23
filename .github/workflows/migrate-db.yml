@@ -24,14 +24,14 @@ jobs:
         # Check if the pull request includes changes to the specific path
         if git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} | grep -E 'src/db-library/' ; then
           echo "Changes to the specified path found. Workflow continues."
-          echo "::set-output name=path_changes::true"
+          echo "path_changes=true" >> $GITHUB_ENV
         else
           echo "No changes to the specified path found. Workflow exits."
-          echo "::set-output name=path_changes::false"
+          echo "path_changes=false" >> $GITHUB_ENV
         fi
 
     - name: Perform Actions Based on Path Changes
-      if: steps.check_paths.outputs.path_changes == 'true'
+      if: env.path_changes == 'true'
       run: |
         # Your workflow steps to be executed if changes to the specified path are found
         echo "Performing actions for changes to the specified path."
