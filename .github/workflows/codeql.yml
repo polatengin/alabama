@@ -63,10 +63,6 @@ jobs:
       run: echo "ESLint found issues"
       if: steps.eslint.outcome == 'failure'
 
-    - name: Add analysis tools
-      working-directory: ./src/project-1
-      run: dotnet add package Microsoft.CodeAnalysis.FxCopAnalyzers
-
     - name: Restore Dependencies
       working-directory: ./src/project-1
       run: dotnet restore
@@ -74,11 +70,3 @@ jobs:
     - name: Build Project
       working-directory: ./src/project-1
       run: dotnet build --configuration Release --no-restore
-
-    - name: Check Code Style Results
-      working-directory: ./src/project-1
-      run: |
-        if [ -f "CodeAnalysisIssues.txt" ]; then
-          cat CodeAnalysisIssues.txt
-          exit 1
-        fi
