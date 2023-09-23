@@ -1,0 +1,25 @@
+name: "DBMigrate"
+
+on:
+  push:
+    branches:
+      - "staging"
+    paths:
+      - 'src/db-library/**'
+  workflow_dispatch:
+
+jobs:
+  migrate:
+    name: Migrate
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 360
+    concurrency: migrate-lock-${{ github.repository }}-${{ github.ref }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Perform Actions Based on Path Changes
+      run: |
+        # Your workflow steps to be executed if changes to the specified path are found
+        echo "Performing actions for changes to the specified path."
