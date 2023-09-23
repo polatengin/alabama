@@ -54,7 +54,7 @@ jobs:
 
     - name: Run ESLint
       working-directory: ./src/project-2
-      run: npx eslint .
+      run: npx eslint
       continue-on-error: true
       id: eslint
 
