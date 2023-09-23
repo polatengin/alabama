@@ -65,6 +65,10 @@ jobs:
 
     - name: Restore Dependencies
       working-directory: ./src/project-1
+      run: dotnet format
+
+    - name: Restore Dependencies
+      working-directory: ./src/project-1
       run: dotnet restore
 
     - name: Build Project
