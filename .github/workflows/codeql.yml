@@ -57,3 +57,28 @@ jobs:
       working-directory: ./src/project-2
       run: echo "ESLint found issues"
       if: steps.eslint.outcome == 'failure'
+
+    - name: Install .NET Core SDK
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1  # Use the .NET SDK version you need
+
+    - name: Restore Dependencies
+      working-directory: ./src/project-1
+      run: dotnet restore
+
+    - name: Build Project
+      working-directory: ./src/project-1
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Run Code Style Analysis
+      working-directory: ./src/project-1
+      run: dotnet analyze
+
+    - name: Check Code Style Results
+      working-directory: ./src/project-1
+      run: |
+        if [ -f "CodeAnalysisIssues.txt" ]; then
+          cat CodeAnalysisIssues.txt
+          exit 1
+        fi
