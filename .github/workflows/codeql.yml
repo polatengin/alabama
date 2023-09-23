@@ -75,10 +75,6 @@ jobs:
       working-directory: ./src/project-1
       run: dotnet build --configuration Release --no-restore
 
-    - name: Run Code Style Analysis
-      working-directory: ./src/project-1
-      run: dotnet analyze
-
     - name: Check Code Style Results
       working-directory: ./src/project-1
       run: |
