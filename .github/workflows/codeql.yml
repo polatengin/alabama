@@ -7,12 +7,12 @@ on:
     branches: [ "dev", "staging", "main" ]
   workflow_dispatch:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: "*/15 * * * *"
 
 jobs:
   analyze:
     name: Analyze
-    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    runs-on: "ubuntu-latest"
     timeout-minutes: 360
     concurrency: build-lock-${{ github.repository }}-${{ github.ref }}
     permissions:
