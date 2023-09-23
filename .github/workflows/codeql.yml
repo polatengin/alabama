@@ -50,31 +50,49 @@ jobs:
 
     - name: Install Dependencies
       working-directory: ./src/project-2
-      run: npm install
+      run: |
+        #!/bin/bash
+        set -e
+        npm install
       continue-on-error: false
 
     - name: Run ESLint
       working-directory: ./src/project-2
-      run: npx eslint
+      run: |
+        #!/bin/bash
+        set -e
+        npx eslint
       continue-on-error: true
       id: eslint
 
     - name: Check ESLint Results
       working-directory: ./src/project-2
-      run: echo "ESLint found issues"
+      run: |
+        #!/bin/bash
+        set -e
+        echo "ESLint found issues"
       if: steps.eslint.outcome == 'failure'
 
     - name: Restore Dependencies
       working-directory: ./src/project-1
-      run: dotnet format
+      run: |
+        #!/bin/bash
+        set -e
+        dotnet format
       continue-on-error: false
 
     - name: Restore Dependencies
       working-directory: ./src/project-1
-      run: dotnet restore
+      run: |
+        #!/bin/bash
+        set -e
+        dotnet restore
       continue-on-error: false
 
     - name: Build Project
       working-directory: ./src/project-1
-      run: dotnet build --configuration Release --no-restore
+      run: |
+        #!/bin/bash
+        set -e
+        dotnet build --configuration Release --no-restore
       continue-on-error: false
