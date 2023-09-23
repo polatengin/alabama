@@ -12,7 +12,7 @@ jobs:
     name: Migrate
     runs-on: "ubuntu-latest"
     timeout-minutes: 360
-    concurrency: build-lock-${{ github.repository }}-${{ github.ref }}
+    concurrency: migrate-lock-${{ github.repository }}-${{ github.ref }}
 
     steps:
     - name: Checkout repository
