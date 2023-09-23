@@ -51,6 +51,7 @@ jobs:
     - name: Install Dependencies
       working-directory: ./src/project-2
       run: npm install
+      continue-on-error: false
 
     - name: Run ESLint
       working-directory: ./src/project-2
@@ -66,11 +67,14 @@ jobs:
     - name: Restore Dependencies
       working-directory: ./src/project-1
       run: dotnet format
+      continue-on-error: false
 
     - name: Restore Dependencies
       working-directory: ./src/project-1
       run: dotnet restore
+      continue-on-error: false
 
     - name: Build Project
       working-directory: ./src/project-1
       run: dotnet build --configuration Release --no-restore
+      continue-on-error: false
